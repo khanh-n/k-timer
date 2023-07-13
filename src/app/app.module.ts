@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CountdownModule } from 'ngx-countdown';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
 	declarations: [AppComponent],
-	imports: [BrowserModule, BrowserAnimationsModule, CountdownModule],
+	imports: [BrowserModule, BrowserAnimationsModule, CountdownModule, MatIconModule],
 	providers: [],
 	bootstrap: [AppComponent],
 })

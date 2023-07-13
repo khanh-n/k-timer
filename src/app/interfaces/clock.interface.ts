@@ -1,4 +1,6 @@
 export interface IClock {
 	state: string,	// paused or active
-	startingTimeLeft: number
+	startingTimeLeft: number,
+	font: string,
+	isSoundEnabled: boolean
 }

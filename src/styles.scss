@@ -63,7 +63,6 @@ a:active {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 2rem;
-	padding: 2rem;
 	padding-left: 15rem;
 	padding-right: 15rem;
 	text-align: center;
@@ -86,6 +85,16 @@ a:active {
 		.time-item:nth-child(2)::before {
 			content: ".";
 			letter-spacing: 0.35rem;
+		}
+
+		.icon {
+			opacity: 0.5;
+			line-height: 0;
+			.mat-icon {
+				font-size: 4rem;
+				height: 50px;
+				width: 50px;
+			}
 		}
 	}
 
@@ -132,12 +141,27 @@ a:active {
 	text-align: center;
 
 	.time-presets {
+		font-size: 0.9rem;
 		width: 50vw;
 		display: grid;
-		gap: 0.5em;
 		grid-template-columns: repeat(6, minmax(0, 1fr));
+		grid-template-rows: auto;
+		gap: 0.5em;
+		justify-content: space-evenly;
+		align-items: center;
 	}
-
+	.control-group {
+		width: 30vw;
+		padding-top: 2rem;
+		display: grid;
+		gap: 0.5em;
+		grid-template-columns: 1fr 1fr;
+		justify-content: space-evenly;
+		align-items: center;
+		.control-btn {
+			width: 150px;
+		}
+	}
 	.settings {
 		width: 30vw;
 		display: grid;
@@ -151,18 +175,20 @@ a:active {
 	.mat-icon {
 		height: auto;
 		width: auto;
+		padding-top: 0.25rem;
 	}
 	.control {
 		font-size: 1rem;
 	}
 	.control-btn {
+		font-weight: bold;
 		background-color: $primary-bg;
 		color: $primary-fg;
 		border: 2px solid $highlight;
 		border-radius: 15px;
 		padding: 0.35rem 1rem 0.35rem;
 		cursor: pointer;
-		width: 100%;
+		width: 105px;
 		outline: 0;
 	}
 	.control-btn:hover,

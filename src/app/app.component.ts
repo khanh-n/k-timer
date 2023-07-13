@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { IClock } from './interfaces/clock.interface';
-import { ISettings } from './interfaces/settings.interface';
+import { TitleStrategy } from '@angular/router';
 
 @Component({
 	selector: 'app-root',
@@ -20,24 +20,21 @@ export class AppComponent implements OnInit {
 	private clickSound: HTMLAudioElement = new Audio('../assets/sounds/254316__jagadamba__clock-tick.wav');
 	private alarmSound: HTMLAudioElement = new Audio('../assets/sounds/426888__thisusernameis__beep4.wav');
 
-	public settings: ISettings = {
-		font: "LCDBOLD",
-		isSoundEnabled: true,
-		selectedPreset: "10",
-	};
 	public clock1: IClock = {
 		state: "paused",
-		startingTimeLeft: 0
+		startingTimeLeft: 0,
+		font: "LCDBOLD",
+		isSoundEnabled: true
+
 	}
 
 	public dangerZone: number = 21;
 	// public showDecimalAt: number = 11;
 
-	public custom: string = this.settings.selectedPreset;
 	public config1: CountdownConfig = {
 		demand: true,
 		leftTime: this.clock1.startingTimeLeft,
-		format: 'mm:ss.S',
+		format: 'HH:mm:ss.S',
 		notify: [this.dangerZone - 1],
 		prettyText: (text) => {
 			return text.split('.')
@@ -45,12 +42,11 @@ export class AppComponent implements OnInit {
 			.join('');
 		}
 	}
+	constructor() {
+		this.clock1 = JSON.parse(localStorage.getItem('userSettings') || JSON.stringify(this.clock1));
+	}
 
 	ngAfterViewInit() {
-		if (this.settings.clock == null) {
-			this.settings.clock = this.clock1;
-		}
-		this.clock1 = this.settings.clock;
 		this.onReset();
 	}
 
@@ -62,17 +58,22 @@ export class AppComponent implements OnInit {
 		}
 
 		if (event.key == 'p' || event.key == 'P' || event.key == ' ') {
-			this.handleStartStop();
+			this.onStartStop();
 		}
 
 	}
 
 	handleEvent(event: CountdownEvent): void {
 
-		if (event.action === 'done' && this.settings.isSoundEnabled) {
+		if (event.action === 'done' && this.clock1.isSoundEnabled) {
 			this.alarmSound.load();
 			this.alarmSound.play();
 		}
+	}
+	onResetBtn(event: Event) {
+		let button : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
+		button.blur();
+		this.onReset();
 	}
 
 	onReset(): void {
@@ -81,7 +82,20 @@ export class AppComponent implements OnInit {
 		this.clock1.state = "paused";
 	}
 
-	onAddTime(time: number): void {
+	onSetToZero(event: Event): void {
+		let button : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
+		button.blur();
+
+		this.clock1.startingTimeLeft = 0;
+		this.onSaveSettings();
+		this.onReset();
+	}
+
+	onAddTime(event: Event, time: number): void {
+
+		let button : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
+		button.blur();
+
 		let timeleft : number = this.clock1.startingTimeLeft + time;
 
 		if (timeleft < 0) {
@@ -90,10 +104,17 @@ export class AppComponent implements OnInit {
 
 		this.clock1.startingTimeLeft = timeleft;
 		this.cd1.config.leftTime = timeleft;
+		this.onSaveSettings();
 		this.cd1.restart();
+		if (this.clock1.state == "active") {
+			this.cd1.begin();
+		}
+		if (this.clock1.state == "paused") {
+			this.cd1.pause();
+		}
 	}
 
-	handleStartStop(): void {
+	onStartStop(): void {
 		if (this.clock1.state == "paused") {
 			this.clock1.state = "active";
 			this.cd1.begin();
@@ -102,6 +123,11 @@ export class AppComponent implements OnInit {
 			this.cd1.pause();
 		}
 	}
+
+	onSaveSettings(): void {
+		localStorage.setItem('userSettings', JSON.stringify(this.clock1));
+	}
+
 }
 
 

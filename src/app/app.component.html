@@ -3,41 +3,89 @@
 	<div class="controls">
 		<div class="time-presets">
 			<div>
-				<button (click)="onAddTime(-30)" class="control-btn">
-					<span class="control">- 30</span>
+				<button (click)="onAddTime($event,-30)" class="control-btn">
+					<span class="control">- 30s</span>
 				</button>
 			</div>
 			<div>
-				<button (click)="onAddTime(-10)" class="control-btn">
-					<span class="control">- 10</span>
+				<button (click)="onAddTime($event,-10)" class="control-btn">
+					<span class="control">- 10s</span>
 				</button>
 			</div>
 			<div>
-				<button (click)="onAddTime(-1)" class="control-btn">
-					<span class="control">- 1</span>
+				<button (click)="onAddTime($event,-1)" class="control-btn">
+					<span class="control">- 1s</span>
 				</button>
 			</div>
 			<div>
-				<button (click)="onAddTime(1)" class="control-btn">
-					<span class="control">+ 1</span>
+				<button (click)="onAddTime($event,1)" class="control-btn">
+					<span class="control">+ 1s</span>
 				</button>
 			</div>
 			<div>
-				<button (click)="onAddTime(10)" class="control-btn">
-					<span class="control">+ 10</span>
+				<button (click)="onAddTime($event,10)" class="control-btn">
+					<span class="control">+ 10s</span>
 				</button>
 			</div>
 			<div>
-				<button (click)="onAddTime(30)" class="control-btn">
-					<span class="control">+ 30</span>
+				<button (click)="onAddTime($event,30)" class="control-btn">
+					<span class="control">+ 30s</span>
+				</button>
+			</div>
+
+			<div>
+				<button (click)="onAddTime($event,-600)" class="control-btn">
+					<span class="control">- 10m</span>
+				</button>
+			</div>
+			<div>
+				<button (click)="onAddTime($event,-300)" class="control-btn">
+					<span class="control">- 5m</span>
+				</button>
+			</div>
+			<div>
+				<button (click)="onAddTime($event,-60)" class="control-btn">
+					<span class="control">- 1m</span>
+				</button>
+			</div>
+			<div>
+				<button (click)="onAddTime($event,60)" class="control-btn">
+					<span class="control">+ 1m</span>
+				</button>
+			</div>
+			<div>
+				<button (click)="onAddTime($event,300)" class="control-btn">
+					<span class="control">+ 5m</span>
+				</button>
+			</div>
+			<div>
+				<button (click)="onAddTime($event,600)" class="control-btn">
+					<span class="control">+ 10m</span>
+				</button>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div>
+				<button (click)="onResetBtn($event)" class="control-btn">
+					<span class="control"><mat-icon>replay</mat-icon></span>
+				</button>
+			</div>
+			<div>
+				<button (click)="onSetToZero($event)" class="control-btn">
+					<span class="control"><mat-icon>stop</mat-icon></span>
 				</button>
 			</div>
 		</div>
 	</div>
 
 	<div class="clock-container">
-		<div id="clock1" class="clock font-{{settings.font}} {{clock1.state}} {{cd1.left/1000 < dangerZone ? 'danger': ''}}" (click)="handleStartStop()">
+		<div id="clock1" class="clock font-{{clock1.font}} {{clock1.state}} {{cd1.left/1000 < dangerZone ? 'danger': ''}}" (click)="onStartStop()">
 			<countdown #cd1 [config]="config1" (event)="handleEvent($event)"></countdown>
+			<div class="icon">
+				<mat-icon *ngIf="clock1.state == 'paused'">play_arrow</mat-icon>
+				<mat-icon *ngIf="clock1.state == 'active'">pause</mat-icon>
+			</div>
 		</div>
 	</div>
 </main>
