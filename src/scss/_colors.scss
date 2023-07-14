@@ -1,4 +1,29 @@
+@use '@angular/material' as mat;
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$k-timer-primary: mat.define-palette(mat.$amber-palette);
+$k-timer-accent: mat.define-palette(mat.$yellow-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$k-timer-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$k-timer-theme: mat.define-light-theme((
+	color: (
+		primary: $k-timer-primary,
+		accent: $k-timer-accent,
+		warn: $k-timer-warn,
+	)
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($k-timer-theme);
+
 $primary-bg: #333;
 $primary-fg: #fefefe;
-$highlight: #ffdf4f;
-$danger: #ff513a;
+$highlight: mat.get-color-from-palette($k-timer-primary, 400);
+$danger: mat.get-color-from-palette($k-timer-warn, 500);
