@@ -10,7 +10,6 @@ import { TitleStrategy } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 	ngOnInit(): void {
-		throw new Error('Method not implemented.');
 	}
 
 	title = 'k-timer';
@@ -25,29 +24,30 @@ export class AppComponent implements OnInit {
 		startingTimeLeft: 0,
 		font: "LCDBOLD",
 		isSoundEnabled: true
-
 	}
 
 	public dangerZone: number = 21;
-	// public showDecimalAt: number = 11;
+	public progress: number = 0;
 
 	public config1: CountdownConfig = {
 		demand: true,
 		leftTime: this.clock1.startingTimeLeft,
 		format: 'HH:mm:ss.S',
-		notify: [this.dangerZone - 1],
+		notify: 0,
 		prettyText: (text) => {
 			return text.split('.')
 			.map((value) => `<span class="time-item">${value}</span>`)
 			.join('');
 		}
 	}
+
 	constructor() {
 		this.clock1 = JSON.parse(localStorage.getItem('userSettings') || JSON.stringify(this.clock1));
 	}
 
 	ngAfterViewInit() {
-		this.onReset();
+		// Timeout prevents this error https://angular.io/errors/NG0100
+		setTimeout(()=>this.onReset(), 0);
 	}
 
 	@HostListener('document:keypress', ['$event'])
@@ -64,12 +64,19 @@ export class AppComponent implements OnInit {
 	}
 
 	handleEvent(event: CountdownEvent): void {
+		// console.log(event);
+
+		if (event.action === 'notify') {
+			this.progress = 100 - (((event.left / 1000) / this.clock1.startingTimeLeft) * 100);
+			// console.log(this.progress);
+		}
 
 		if (event.action === 'done' && this.clock1.isSoundEnabled) {
 			this.alarmSound.load();
 			this.alarmSound.play();
 		}
 	}
+
 	onResetBtn(event: Event) {
 		let button : HTMLButtonElement = event.currentTarget as HTMLButtonElement;
 		button.blur();

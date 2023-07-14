@@ -17,7 +17,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $k-timer-primary: mat.define-palette(mat.$indigo-palette);
-$k-timer-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$k-timer-accent: mat.define-palette(mat.$yellow-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $k-timer-warn: mat.define-palette(mat.$red-palette);
@@ -59,12 +59,17 @@ a:hover,
 a:active {
 	color: darken($primary-fg, 25%);
 }
+
+.content {
+	width: 1280px;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	margin: 0 auto;
+}
 .clock-container {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 2rem;
-	padding-left: 15rem;
-	padding-right: 15rem;
 	text-align: center;
 
 	.clock {
@@ -201,13 +206,18 @@ a:active {
 	.select-container {
 		text-align: right;
 	}
+}
 
+mat-progress-bar {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
 
 @media only screen and (max-width: 1024px) {
+	.content {
+		max-width: 980px;
+	}
 	.clock-container {
-		padding-left: 2rem;
-		padding-right: 2rem;
 		.clock {
 			font-size: 9rem;
 			padding-top: 6rem;
@@ -228,6 +238,9 @@ a:active {
 }
 
 @media only screen and (max-width: 769px) {
+	.content {
+		max-width: 720px;
+	}
 	.clock-container {
 		.clock {
 			font-size: 7;
@@ -251,6 +264,9 @@ a:active {
 }
 
 @media only screen and (max-width: 480px) {
+	.content {
+		max-width: 450px;
+	}
 	.clock-container {
 		.clock {
 			font-size: 5rem;
