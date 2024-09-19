@@ -122,6 +122,7 @@ export class AppComponent implements OnInit {
 	}
 
 	onStartStop(): void {
+		console.log("onStartStop() -- " + this.clock1.state);
 		if (this.clock1.state == "paused") {
 			this.clock1.state = "active";
 			this.cd1.begin();
